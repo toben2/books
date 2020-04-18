@@ -19,12 +19,16 @@
 		    weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일 
             language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
 		    
-		});//datepicker end
+        });//datepicker end
+        
+        
     });//ready end
 
-            $('#orders-box').html('');
+    $('#post-cards').html('');
             listing();
         });
+
+        
 
         function make_review() {
             // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
@@ -34,8 +38,8 @@
             let image = $('#image').val();
             let datePicker = $('#datePicker').val();
             let review = $('#review').val();
-            let hashtag = $('#hashtag').tagsinput('items');
-           
+            let hashtag = $('#hashtag').val();
+     
 
             // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
             // 지난 주에 배웠던 Input Validation 파트 입니다.
@@ -100,7 +104,7 @@
                         let reviews = response['reviews'];
                         // 3. 요청 성공했을 때 리뷰를 올바르게 화면에 나타내기
                         for (let i = 0; i < reviews.length; i++) {
-                            make_card(reviews[i]['title'], reviews[i]['author'], reviews[i]['review']);
+                            make_card(reviews[i]['title'], reviews[i]['author'], reviews[i]['category'], reviews[i]['image'], reviews[i]['datePicker'], reviews[i]['review'], reviews[i]['hashtag']);
                         }
                     } else {
                         alert('리뷰를 받아오지 못했습니다');
@@ -109,14 +113,37 @@
             })
         }
 
-        function make_card(title, author, review) {
-            let temp_html = '<tr>\
-                                <td>' + title + '</td>\
-                                <td>' + author + '</td>\
-                                <td>' + review + '</td>\
-                            </tr>';
-            $('#orders-box').append(temp_html);
-        }
+        // function make_card(title, author, category, image, datePicker, review, hashtag) {
+        //     let temp_html = '<tr>\
+        //                         <td>' + title + '</td>\
+        //                         <td>' + author + '</td>\
+        //                         <td>' + category + '</td>\
+        //                         <td>' + image + '</td>\
+        //                         <td>' + datePicker + '</td>\
+        //                         <td>' + review + '</td>\
+        //                         <td>' + hashtag + '</td>\
+        //                     </tr>';
+        //     $('#post-cards').append(temp_html);
+        // }
+
+        function make_card(title, author, category, image, datePicker, review, hashtag) {
+            let image_dummy = '/static/book_dummy.jpg'
+            let temp_html = '<div class="card">\
+              <img class="card-img-top" src="'+ image_dummy + '" alt="Card image cap">\
+              <div class="card-body">\
+              <p class="card-title">'+ title + '</p>\
+                <p class="card-subtitle mb-2 text-muted">'+ author + '</p>\
+                <p class="card-text">'+ category + '</p>\
+                <p class="card-text">'+ datePicker + '</p>\
+                <p class="card-text">'+ hashtag + '</p>\
+                <p class="card-text comment">'+ review + '</p>\
+              </div>\
+            </div>';
+            $('#post-cards').append(temp_html);
+          }
+
+
+
 
         function is_long(obj) {
             let content = $(obj).val();
@@ -125,3 +152,8 @@
                 $(obj).val(content.substring(0, content.length - 1));
             }
         }
+
+        
+        function button1_click() {
+            window.open('http://localhost:5000/write');
+	    }

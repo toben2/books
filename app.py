@@ -12,6 +12,11 @@ db = client.dbsparta  # 'dbsparta'라는 이름의 db를 만듭니다.
 def home():
     return render_template('index.html')
 
+## HTML을 주는 부분
+@app.route('/write')
+def write():
+    return render_template('write.html')
+
 
 ## API 역할을 하는 부분
 @app.route('/reviews', methods=['POST'])
@@ -24,8 +29,10 @@ def write_review():
     # optional
     category_receive = request.form['category_give'] if 'category_give' in request.form else None
     image_receive = request.form['image_give'] if 'image_give' in request.form else None
-    datePicker_receive = request.form['datePicker_give'] if 'datePicker_giv' in request.form else None
+    datePicker_receive = request.form['datePicker_give'] if 'datePicker_give' in request.form else None
     hashtag_receive = request.form['hashtag_give'] if 'hashtag_give' in request.form else None
+
+
 
     review = {
        'title': title_receive,
@@ -34,7 +41,7 @@ def write_review():
        'image' : image_receive,
        'datePicker' : datePicker_receive,
        'review': review_receive,
-       'hashtag' : hashtag_receive
+       'hashtag' : hashtag_receive.split(",")
 
     }
 
@@ -45,6 +52,7 @@ def write_review():
 @app.route('/reviews', methods=['GET'])
 def read_reviews():
     reviews = list(db.reviews.find({},{'_id':0}))
+    print(reviews)
     return jsonify({'result': 'success', 'reviews': reviews})
 
 
