@@ -30,9 +30,12 @@
             // 1. 제목, 저자, 리뷰 내용을 가져옵니다.
             let title = $('#title').val();
             let author = $('#author').val();
+            let category = $('#category').val();
+            let image = $('#image').val();
+            let datePicker = $('#datePicker').val();
             let review = $('#review').val();
             let hashtag = $('#hashtag').tagsinput('items');
-            alert(hashtag)
+           
 
             // 2. 제목, 저자, 리뷰 중 하나라도 입력하지 않았을 경우 alert를 띄웁니다.
             // 지난 주에 배웠던 Input Validation 파트 입니다.
@@ -62,14 +65,23 @@
                 data: {
                     title_give: title,
                     author_give: author,
-                    review_give: review
-                },
+                    category_give: category,
+                    image_give: image,
+                    datePicker_give: datePicker,
+                    review_give: review,
+                    hashtag_give: hashtag
+
+                    },
                 success: function(response) {
                     if (response['result'] == 'success') {
                         alert(response['msg']);
                         $('#title').val('');
                         $('#author').val('');
+                        $('#category').val('');
+                        $('#image').val('');
+                        $('#datePicker').val('');
                         $('#review').val('');
+                        $('#hashtag').val('');
                         window.location.reload();
                     }
                 }
